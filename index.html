@@ -1,375 +1,598 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Wishes - Mohamed Uvice & Simeera Jasmeen</title>
-    <!-- Google Fonts for Elegant Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Poppins:wght@300;400;600&family=Amiri&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --gold: #d4af37;
-            --dark-blue: #0b1a30;
-            --cream: #fdfbf7;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Blessed Union — S. Mohamed Uvice & M.S. Simeera Jasmeen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --royal-jade: #05241b;
+    --emerald-dark: #0a3a2b;
+    --gold-primary: #d4af37;
+    --gold-metallic: linear-gradient(135deg, #f3e5ab 0%, #d4af37 40%, #aa7c11 70%, #f3e5ab 100%);
+    --gold-soft: #f3e5ab;
+    --pure-ivory: #fffdf9;
+    --shadow-deep: 0 60px 140px rgba(0, 4, 3, 0.6);
+  }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body {
+    font-family: 'Jost', sans-serif;
+    color: var(--royal-jade);
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #0a3a2b 0%, #03140f 100%);
+    overflow-x: hidden;
+  }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-blue);
-            color: var(--cream);
-            overflow: hidden; /* Hide scroll until unlocked */
-            height: 100vh;
-        }
+  #starCanvas, #confettiCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+  }
+  #starCanvas { z-index: 1; }
+  #confettiCanvas { z-index: 999; }
 
-        /* --- LANDING PAGE OVERLAY --- */
-        #landing-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #102a45 0%, #050c18 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 1s ease, visibility 1s;
-        }
+  /* --- STAGE 1: MASTER GIFT BOX TOP COVER ENTRY --- */
+  #entryScreen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #0a3a2b, #03140f);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .master-gift-lid {
+    background: rgba(5, 36, 27, 0.9);
+    border: 3px dashed var(--gold-primary);
+    padding: 4rem 5rem;
+    border-radius: 24px;
+    width: 480px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0 80px rgba(212, 175, 55, 0.35), inset 0 0 40px rgba(212, 175, 55, 0.2);
+    backdrop-filter: blur(25px);
+    position: relative;
+    transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 0.8s ease;
+  }
+  .master-gift-lid.drop-down {
+    transform: translateY(120vh) rotate(5deg);
+    opacity: 0;
+  }
+  .master-gift-lid::before {
+    content: '🎁'; font-size: 3rem; display: block; margin-bottom: 1rem;
+  }
+  .master-gift-lid h2 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold-soft);
+    font-size: 2.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .master-gift-lid p { color: #fff; font-size: 0.9rem; letter-spacing: 0.35em; text-transform: uppercase; opacity: 0.9; }
 
-        .envelope-circle {
-            width: 180px;
-            height: 180px;
-            background: transparent;
-            border: 3px double var(--gold);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            animation: pulse 2s infinite;
-            text-align: center;
-            padding: 20px;
-            transition: transform 0.3s ease;
-        }
+  /* --- PRESENTATION DECK FLOW --- */
+  .presentation-deck {
+    display: none;
+    width: 100%;
+    max-width: 980px;
+    margin: 4rem auto;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
 
-        .envelope-circle:hover {
-            transform: scale(1.05);
-            background: rgba(212, 175, 55, 0.1);
-        }
+  /* REUSABLE INTERACTIVE SLIDE BOX HOUSINGS */
+  .slide-box-container {
+    position: relative;
+    margin-bottom: 6rem;
+    border-radius: 44px;
+    overflow: visible;
+  }
 
-        .envelope-circle i {
-            font-size: 1.2rem;
-            color: var(--gold);
-            margin-bottom: 8px;
-            letter-spacing: 2px;
-            font-family: 'Poppins', sans-serif;
-            text-transform: uppercase;
-        }
+  /* SLIDE LAYER COVER LID */
+  .slide-cover-lid {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, #093326 0%, #041a13 100%);
+    border: 2px solid var(--gold-primary);
+    border-radius: 44px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    transition: transform 0.9s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 0.8s ease;
+  }
+  .slide-cover-lid.dropped {
+    transform: translateY(110%) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .slide-cover-lid span {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold-soft);
+    font-size: 1.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .slide-cover-lid::after {
+    content: '✦ Click Gift Box to Open ✦';
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #fff;
+    opacity: 0.6;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
 
-        .envelope-circle span {
-            font-family: 'Great Vibes', cursive;
-            font-size: 1.8rem;
-            color: var(--cream);
-        }
+  /* INNER PRESENTATION CONTENT */
+  .slide-segment {
+    background: var(--pure-ivory);
+    border: 2px solid rgba(214, 175, 87, 0.55);
+    border-radius: 44px;
+    padding: clamp(3.5rem, 8vh, 6.5rem) clamp(1.5rem, 5vw, 5.5rem);
+    box-shadow: var(--shadow-deep);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: floatLuxuryCard 6s ease-in-out infinite alternate;
+  }
+  .slide-box-container.unlocked .slide-segment {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
-            100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-        }
+  @keyframes floatLuxuryCard {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-12px); box-shadow: 0 70px 150px rgba(0, 4, 3, 0.7); }
+  }
 
-        /* --- MAIN CONTENT (Hidden Initially) --- */
-        #main-content {
-            opacity: 0;
-            visibility: hidden;
-            height: 100vh;
-            overflow-y: auto;
-            transition: opacity 1.5s ease;
-            background: linear-gradient(to bottom, rgba(11, 26, 48, 0.85), rgba(5, 12, 24, 0.95));
-            position: relative;
-        }
+  .pre-header {
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    font-size: .9rem;
+    color: var(--gold-primary);
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  /* --- TYPOGRAPHY AND SMALL CAPS --- */
+  .couple-display { margin: 1.5rem 0; width: 100%; text-align: center; }
+  
+  .luxury-caps-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 7vw, 4.2rem);
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: lowercase;
+    line-height: 1.15;
+    background: var(--gold-metallic);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+  }
+  
+  .luxury-caps-parent {
+    font-size: 1.05rem;
+    font-variant: small-caps;
+    text-transform: lowercase;
+    color: var(--royal-jade);
+    opacity: 0.85;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.8rem;
+    text-align: center;
+  }
 
-        /* Mosque Shadow Background Layer */
-        #main-content::before {
-            content: "";
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 1200px;
-            height: 35vh;
-            /* SVG Mosque Silhouette vector */
-            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400' fill='%23061122'><path d='M0,400 L1200,400 L1200,300 L1150,300 L1150,220 L1120,220 L1120,300 L1080,300 L1050,180 L1020,300 L950,300 L950,150 Q900,80 850,150 L850,300 L750,300 L750,200 Q700,120 650,200 L650,300 L550,300 L550,100 Q600,0 600,0 Q600,0 650,100 L650,300 L550,300 L550,120 Q500,40 450,120 L450,300 L350,300 L350,180 Q300,100 250,180 L250,300 L150,300 L150,220 L120,220 L120,300 L50,300 L50,250 L0,250 Z'/></svg>") no-repeat bottom center;
-            background-size: contain;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.6;
-        }
+  .degree {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    color: var(--royal-jade);
+    font-weight: 500;
+    opacity: 0.8;
+    margin-top: 0.8rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px 150px 20px; /* space at bottom so mosque shadow doesn't cover text */
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
+  .and-connector {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 3rem;
+    background: var(--gold-metallic);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 1rem 0 2rem 0;
+    display: block;
+    text-align: center;
+  }
 
-        /* Typography Styling */
-        .header-title {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 1.5rem;
-            color: var(--gold);
-            letter-spacing: 3px;
-            margin-bottom: 30px;
-        }
+  /* --- COMPLIMENTS --- */
+  .letter-box { width: 100%; max-width: 800px; position: relative; background: rgba(5, 36, 27, 0.02); border: 1px solid rgba(214, 175, 87, 0.35); border-radius: 32px; padding: 4rem 3rem; text-align: center; }
+  .imran-sash { position: absolute; top: 25px; right: -35px; background: var(--gold-metallic); color: var(--royal-jade); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; padding: 0.25rem 2.5rem; transform: rotate(45deg); }
+  .letter-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--royal-jade); margin-bottom: 1.2rem; text-align: center; }
+  .letter-body { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-style: italic; line-height: 1.75; color: var(--royal-jade); margin-bottom: 2.5rem; text-align: center; }
+  .signature { font-family: 'Jost', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-primary); font-weight: 600; text-align: center; }
 
-        .couple-names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
-            color: var(--cream);
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        .couple-names span {
-            display: block;
-            font-size: 2.5rem;
-            color: var(--gold);
-            margin: 10px 0;
-        }
+  /* --- FIXED NO-CLIP SINGLE LINE ARABIC DUA SYSTEM --- */
+  .dua-outer-scroller {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding: 0 10px;
+    overflow: visible;
+  }
+  .child-writing-dua {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.2rem, 3.2vw, 2.3rem); 
+    color: var(--emerald-dark);
+    font-weight: 700;
+    direction: rtl;
+    white-space: nowrap;
+    display: inline-block;
+    width: 0;
+    overflow: hidden;
+    border-left: 3px solid var(--gold-primary);
+    padding-left: 4px;
+    line-height: 1.6;
+  }
+  .unlocked .child-writing-dua {
+    animation: childWriteArabic 4s steps(50) forwards, blinkCursor 0.8s step-end infinite;
+  }
 
-        .divider {
-            width: 150px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--gold), transparent);
-            margin: 30px auto;
-        }
+  @keyframes childWriteArabic { from { width: 0; } to { width: 100%; } }
+  @keyframes blinkCursor { from, to { border-color: transparent; } 50% { border-color: var(--gold-primary); } }
 
-        /* Blessing / Islamic Section */
-        .blessing-section {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 40px 0;
-            backdrop-filter: blur(5px);
-        }
+  .prophetic-dua-transliteration {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--gold-primary);
+    margin-bottom: 3rem;
+    max-width: 750px;
+    text-align: center;
+  }
+  .prophetic-dua-meaning {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.65rem;
+    line-height: 1.65;
+    color: var(--royal-jade);
+    max-width: 700px;
+    border-top: 1px solid rgba(214, 175, 87, 0.3);
+    padding-top: 2.5rem;
+    text-align: center;
+  }
 
-        .arabic-text {
-            font-family: 'Amiri', serif;
-            font-size: 2.2rem;
-            color: var(--gold);
-            line-height: 2;
-            direction: rtl;
-            margin-bottom: 15px;
-        }
+  /* --- ISOLATED COUNTDOWN DECK --- */
+  .countdown-display-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--gold-primary);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .countdown-container { display: flex; justify-content: center; gap: 1.5rem; width: 100%; max-width: 600px; margin: 0 auto; }
+  .cd-tile {
+    background: rgba(5, 36, 27, 0.03);
+    border: 1px solid rgba(214, 175, 87, 0.35);
+    padding: 1.5rem 2rem;
+    border-radius: 20px;
+    flex: 1;
+    text-align: center;
+  }
+  .cd-num { font-size: 3rem; font-weight: 700; color: var(--emerald-dark); display: block; }
+  .cd-lbl { font-size: 0.85rem; text-transform: uppercase; color: var(--gold-primary); letter-spacing: 0.08em; }
 
-        .transliteration {
-            font-style: italic;
-            font-size: 1rem;
-            color: #b0c4de;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
+  /* --- VENUES ONLY --- */
+  .events-grid-layout { display: grid; gap: 2rem; grid-template-columns: 1fr; width: 100%; max-width: 850px; }
+  @media(min-width: 650px) { .events-grid-layout { grid-template-columns: 1fr 1fr; } }
+  .event-luxury-card {
+    background: #fff;
+    border: 1px solid rgba(214, 175, 87, 0.25);
+    border-radius: 28px;
+    padding: 3rem 2rem;
+    box-shadow: 0 20px 45px rgba(5,36,27,0.02);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ev-title { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; color: var(--royal-jade); font-weight: 700; margin-bottom: 0.6rem; text-align: center; }
+  .ev-time { font-size: 0.9rem; font-weight: 600; color: #fff; background: var(--emerald-dark); padding: 0.3rem 1.2rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; text-align: center; }
+  .ev-venue { font-size: 1rem; line-height: 1.6; opacity: 0.85; margin-bottom: 2rem; text-align: center; }
 
-        .translation {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: var(--cream);
-        }
+  .gps-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; border: 1px solid var(--gold-primary);
+    color: var(--royal-jade); padding: 0.6rem 1.5rem; border-radius: 30px; font-size: 0.85rem; text-decoration: none; text-transform: uppercase; transition: 0.3s; font-weight: 600;
+  }
+  .gps-btn:hover { background: var(--gold-metallic); box-shadow: 0 5px 15px rgba(214,175,87,0.3); }
 
-        .hadith-note {
-            font-size: 0.85rem;
-            color: var(--gold);
-            margin-top: 15px;
-            opacity: 0.8;
-        }
+  .deck-foot { margin-top: 3rem; text-align: center; }
+  .deck-foot .date-marker { letter-spacing: 0.15em; text-transform: uppercase; font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; text-align: center; }
+  .deck-foot .hijri-marker { letter-spacing: 0.1em; font-size: 0.85rem; color: var(--gold-primary); text-align: center; }
 
-        /* Details / Venue Card */
-        .details-card {
-            margin: 40px 0;
-        }
-
-        .date-box {
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: var(--gold);
-            text-transform: uppercase;
-        }
-
-        .islamic-date {
-            font-size: 1.1rem;
-            color: #b0c4de;
-            margin: 5px 0 15px 0;
-        }
-
-        .venue-title {
-            font-size: 1.2rem;
-            margin-top: 15px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .venue-address {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin-top: 5px;
-        }
-
-        /* Wishes From Section */
-        .wishes-from {
-            margin-top: 60px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .wishes-from h4 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--gold);
-            margin-bottom: 5px;
-        }
-
-        .wishes-from p {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.2rem;
-            color: var(--cream);
-        }
-
-        /* Audio Controls floating button */
-        #audio-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(11, 26, 48, 0.8);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 100;
-            font-size: 1.2rem;
-            display: none; /* Shown after unlock */
-        }
-    </style>
+  /* --- FLOATING AUDIO TOGGLE CONTROLLER --- */
+  #audioControlBtn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background: rgba(5, 36, 27, 0.85);
+    border: 2px solid var(--gold-primary);
+    border-radius: 50%;
+    color: var(--gold-soft);
+    font-size: 1.2rem;
+    display: none; /* Becomes visible after unboxing */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1005;
+    box-shadow: 0 0 15px rgba(214, 175, 87, 0.4);
+    animation: audioPulse 2s infinite;
+    transition: transform 0.3s ease;
+  }
+  #audioControlBtn:hover {
+    transform: scale(1.1);
+  }
+  @keyframes audioPulse {
+    0% { box-shadow: 0 0 0 0 rgba(214, 175, 87, 0.6); }
+    70% { box-shadow: 0 0 0 12px rgba(214, 175, 87, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(214, 175, 87, 0); }
+  }
+</style>
 </head>
 <body>
 
-    <!-- BACKGROUND AUDIO (Replace the source link with your chosen Nasheed audio file URL) -->
-    <audio id="nasheed-audio" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+<canvas id="starCanvas"></canvas>
 
-    <!-- 1. STARTING CLICK CIRCLE -->
-    <div id="landing-overlay">
-        <div class="envelope-circle" onclick="openInvitation()">
-            <i>Click to Open</i>
-            <span>Wedding Wishes</span>
-        </div>
+<!-- CORE AUDIO BACKGROUND COMPONENT -->
+<audio id="nasheedPlayer" loop>
+  <source src="https://voca.ro/media/download/1l6N7h17gP9c" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<!-- STAGE 1: MASTER GIFT BOX TOP COVER -->
+<div id="entryScreen">
+  <div class="master-gift-lid" id="masterLid" onclick="unfoldMasterCover()">
+    <h2>Wishes for Your Wedding</h2>
+    <p>Tap Cover to Unbox ✨</p>
+  </div>
+</div>
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- FLOATING AUDIO CONTROLLER KEY -->
+<button id="audioControlBtn" onclick="toggleAudioState()">🎵</button>
+
+<!-- MAIN SYSTEM DECK CONTAINER -->
+<div class="presentation-deck" id="deckWrapper">
+  
+  <!-- BOX 1: THE WELCOME UNION -->
+  <div class="slide-box-container" id="box1">
+    <div class="slide-cover-lid" onclick="revealSlideBox('box1')"><span>The Union Announcement</span></div>
+    <div class="slide-segment">
+      <p class="pre-header">Heartfelt Mubarak on the Auspicious Occasion of Nikkah</p>
+      <div class="couple-display">
+        <p class="luxury-caps-parent">Son of Mrs. & Mr. Haji. A. Shajahan & Hajiya. Razia Begum</p>
+        <h1 class="luxury-caps-name">S. Mohamed Uvice</h1>
+        <span class="degree">B.Sc., MBA.</span>
+        <div class="and-connector">✦ &amp; ✦</div>
+        <p class="luxury-caps-parent">Daughter of Mrs. & Mr. A. Mohamed Siddiq & Thahira Banu</p>
+        <h2 class="luxury-caps-name">M.S. Simeera Jasmeen</h2>
+        <span class="degree">B.Sc(CS)., (Muballika)</span>
+      </div>
     </div>
+  </div>
 
-    <!-- 2. MAIN WEBSITE CONTENT -->
-    <div id="main-content">
-        <div class="container">
-            
-            <div class="header-title">The Wedding Celebration of</div>
-            
-            <div class="couple-names">
-                Mohamed Uvice
-                <span>weds</span>
-                Simeera Jasmeen
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Quranic Blessing Section -->
-            <div class="blessing-section">
-                <div class="arabic-text">بَارَكَ اللهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</div>
-                <div class="transliteration">"Barakallāhu laka wa bāraka ʿalayka wa jamaʿa baynakumā fī khayr."</div>
-                <div class="translation">“May Allah bless you, bestow His blessings upon you, and unite you both in goodness.”</div>
-                <div class="hadith-note">This is the authentic marriage congratulation taught by Prophet Muhammad ﷺ.</div>
-                <div style="font-size: 1.5rem; margin-top: 15px; color: var(--gold);">Ameen 🤲</div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Event Details -->
-            <div class="details-card">
-                <div class="date-box">28th June 2026 — Sunday</div>
-                <div class="islamic-date">12 Muharram 1448 AH | 11:30 AM</div>
-                
-                <div class="divider" style="width: 60px;"></div>
-                
-                <div class="venue-title">📍 PLACE:</div>
-                <div class="venue-address">Abdul Jaleel Community Hall,<br>Thirubuvanam</div>
-            </div>
-
-            <!-- Wishes From Footer -->
-            <div class="wishes-from">
-                <h4>Best Wishes By:</h4>
-                <p>R.M.Ishak & Family</p>
-            </div>
-
-        </div>
+  <!-- BOX 2: THE COMPLIMENTS / WISHES -->
+  <div class="slide-box-container" id="box2">
+    <div class="slide-cover-lid" onclick="revealSlideBox('box2')"><span>Tahniat & Prayers</span></div>
+    <div class="slide-segment">
+      <p class="pre-header">Tahniat & Compliments</p>
+      <div class="letter-box">
+        <div class="imran-sash">Imran Craft</div>
+        <h3 class="letter-title">Our Heartfelt Prayers</h3>
+        <p class="letter-body">
+          "May Allah bless your beautiful new union and shower you with infinite love and divine understanding as you step into this blessed chapter of marriage."
+        </p>
+        <div class="signature">— With love & Duas, R. Mohamed Ishak & Family</div>
+      </div>
     </div>
+  </div>
 
-    <!-- Floating Audio Toggle button -->
-    <button id="audio-control" onclick="toggleAudio()">🎵</button>
+  <!-- BOX 3: ISLAMIC DUA SEGMENT (SAFE SINGLE-LINE ENGINE) -->
+  <div class="slide-box-container" id="box3">
+    <div class="slide-cover-lid" onclick="revealSlideBox('box3')"><span>The Prophetic Blessing</span></div>
+    <div class="slide-segment">
+      <p class="pre-header">Sacred Prophetic Wedding Blessing</p>
+      <div class="dua-outer-scroller">
+        <div class="child-writing-dua">بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</div>
+      </div>
+      <div class="prophetic-dua-transliteration">"Barakallahu Lakuma wa Baraka Alaikuma wa Jama'a Bainakuma Fee Khair"</div>
+      <div class="prophetic-dua-meaning">
+        May Allah bless your union, shower His divine blessings upon you both, and unite your hearts together in perfect goodness, compatibility, and love.
+      </div>
+    </div>
+  </div>
 
-    <script>
-        function openInvitation() {
-            // Hide the landing screen overlay
-            const overlay = document.getElementById('landing-overlay');
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 1000);
+  <!-- BOX 4: DETACHED ISOLATED COUNTDOWN WINDOW -->
+  <div class="slide-box-container" id="box4">
+    <div class="slide-cover-lid" onclick="revealSlideBox('box4')"><span>The Auspicious Countdown</span></div>
+    <div class="slide-segment">
+      <p class="pre-header">The Blessed Clock</p>
+      <h3 class="countdown-display-date">Sunday, 28th June 2026</h3>
+      <div class="countdown-container" id="countdown">
+        <div class="cd-tile"><span class="cd-num" id="days">00</span><span class="cd-lbl">Days</span></div>
+        <div class="cd-tile"><span class="cd-num" id="hours">00</span><span class="cd-lbl">Hrs</span></div>
+        <div class="cd-tile"><span class="cd-num" id="minutes">00</span><span class="cd-lbl">Min</span></div>
+        <div class="cd-tile"><span class="cd-num" id="seconds">00</span><span class="cd-lbl">Sec</span></div>
+      </div>
+    </div>
+  </div>
 
-            // Show and reveal the main page smoothly
-            const content = document.getElementById('main-content');
-            content.style.visibility = 'visible';
-            content.style.opacity = '1';
-            document.body.style.overflow = 'auto'; // allow scrolling
+  <!-- BOX 5: GEOGRAPHIC VENUES LOCATION (PLACED AT THE ABSOLUTE END) -->
+  <div class="slide-box-container" id="box5">
+    <div class="slide-cover-lid" onclick="revealSlideBox('box5')"><span>Venue Location Details</span></div>
+    <div class="slide-segment">
+      <p class="pre-header">Ceremony Timeline Venues</p>
+      <div class="events-grid-layout">
+        <div class="event-luxury-card">
+          <h4 class="ev-title">The Nikkah</h4>
+          <span class="ev-time">Morning 11:30 AM</span>
+          <p class="ev-venue">Abdul Jaleel Community Hall,<br>Thirubuvanam</p>
+          <a class="gps-btn" href="https://maps.google.com/?q=Abdul+Jaleel+Community+Hall+Thirubuvanam" target="_blank">📍 Open Location Map</a>
+        </div>
+        <div class="event-luxury-card">
+          <h4 class="ev-title">The Feast</h4>
+          <span class="ev-time">Afternoon 12:00 PM</span>
+          <p class="ev-venue">Abdul Jaleel Community Hall,<br>Thirubuvanam</p>
+          <a class="gps-btn" href="https://maps.google.com/?q=Abdul+Jaleel+Community+Hall+Thirubuvanam" target="_blank">📍 Open Location Map</a>
+        </div>
+      </div>
+      <div class="deck-foot">
+        <div class="date-marker">Sunday · 28th June 2026</div>
+        <div class="hijri-marker">Hijri 1448, Moharam 12</div>
+      </div>
+    </div>
+  </div>
 
-            // Play the marriage nasheed audio automatically
-            const audio = document.getElementById('nasheed-audio');
-            audio.play().catch(error => {
-                console.log("Autoplay prevented by browser security. Audio will play upon direct interaction.");
-            });
-            
-            // Show the audio floating control button
-            document.getElementById('audio-control').style.display = 'flex';
-        }
+</div>
 
-        function toggleAudio() {
-            const audio = document.getElementById('nasheed-audio');
-            const btn = document.getElementById('audio-control');
-            if (audio.paused) {
-                audio.play();
-                btn.innerText = "🎵";
-            } else {
-                audio.pause();
-                btn.innerText = "🔇";
-            }
-        }
-    </script>
+<script>
+  const audioTrack = document.getElementById('nasheedPlayer');
+  const audioBtn = document.getElementById('audioControlBtn');
+
+  // MASTER INITIAL UNBOXING DISPLACEMENT
+  function unfoldMasterCover() {
+    document.getElementById('masterLid').classList.add('drop-down');
+    
+    // Autoplay execution safe point triggered by click interaction
+    audioTrack.play().catch(err => console.log("Audio playing pending interface interaction settings."));
+    
+    setTimeout(() => {
+      document.getElementById('entryScreen').style.opacity = '0';
+      document.getElementById('entryScreen').style.display = 'none';
+      document.getElementById('deckWrapper').style.display = 'block';
+      audioBtn.style.display = 'flex'; // Display floating pause trigger safely
+      initExplodingConfetti(true); // Complete full screen pop
+    }, 900);
+  }
+
+  // AUDIO TOGGLE CONTROL INTERACTION SYSTEM
+  function toggleAudioState() {
+    if (audioTrack.paused) {
+      audioTrack.play();
+      audioBtn.innerText = "🎵";
+    } else {
+      audioTrack.pause();
+      audioBtn.innerText = "🔇";
+    }
+  }
+
+  // SLIDE COVER LID DROPDOWN ENGINE
+  function revealSlideBox(boxId) {
+    const container = document.getElementById(boxId);
+    const lid = container.querySelector('.slide-cover-lid');
+    
+    lid.classList.add('dropped');
+    container.classList.add('unlocked');
+    
+    initExplodingConfetti(false); // Local celebratory burst
+  }
+
+  // AMBIENT STARFIELD GRAPHICS
+  const starCanvas = document.getElementById("starCanvas");
+  const sCtx = starCanvas.getContext("2d");
+  let starArray = [];
+
+  function sizeStarField() { starCanvas.width = window.innerWidth; starCanvas.height = window.innerHeight; }
+  window.addEventListener('resize', sizeStarField);
+  sizeStarField();
+
+  for(let i=0; i<45; i++) {
+    starArray.push({ x: Math.random() * starCanvas.width, y: Math.random() * starCanvas.height, size: Math.random() * 4 + 2, speed: Math.random() * 0.25 + 0.05 });
+  }
+
+  function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
+    let rot = Math.PI / 2 * 3; let x = cx; let y = cy; let step = Math.PI / spikes;
+    sCtx.beginPath(); sCtx.moveTo(cx, cy - outerRadius);
+    for (let i = 0; i < spikes; i++) {
+      x = cx + Math.cos(rot) * outerRadius; y = cy + Math.sin(rot) * outerRadius; sCtx.lineTo(x, y); rot += step;
+      x = cx + Math.cos(rot) * innerRadius; y = cy + Math.sin(rot) * innerRadius; sCtx.lineTo(x, y); rot += step;
+    }
+    sCtx.lineTo(cx, cy - outerRadius); sCtx.closePath();
+    sCtx.fillStyle = 'rgba(214, 175, 55, 0.25)'; sCtx.fill();
+  }
+
+  function renderStars() {
+    sCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+    starArray.forEach(p => { p.y -= p.speed; if (p.y < -10) p.y = starCanvas.height + 10; drawStar(p.x, p.y, 4, p.size, p.size/2); });
+    requestAnimationFrame(renderStars);
+  }
+  renderStars();
+
+  // FULL SLIDE CELEBRATION CONFETTI ENGINE
+  const confettiCanvas = document.getElementById("confettiCanvas");
+  const cCtx = confettiCanvas.getContext("2d");
+  let confettiParticles = [];
+
+  function initExplodingConfetti(isFullStage) {
+    confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight;
+    const loopCount = isFullStage ? 85 : 40;
+    
+    for(let i=0; i<loopCount; i++) spawnParticle(0, confettiCanvas.height, 40);
+    for(let i=0; i<loopCount; i++) spawnParticle(confettiCanvas.width, confettiCanvas.height, 140);
+    animateConfetti();
+  }
+
+  function spawnParticle(x, y, baseAngle) {
+    const angle = (baseAngle + (Math.random() * 40 - 20)) * Math.PI / 180;
+    const speed = Math.random() * 15 + 9;
+    confettiParticles.push({ x: x, y: y, vx: Math.cos(angle) * speed, vy: -Math.sin(angle) * speed, r: Math.random() * 4 + 3, gravity: 0.22, color: ["#d4af37", "#f3e5ab", "#0a3a2b", "#ffffff"][Math.floor(Math.random() * 4)] });
+  }
+
+  function animateConfetti() {
+    cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    let active = false;
+    confettiParticles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.vx *= 0.97;
+      if (p.y < confettiCanvas.height) active = true;
+      cCtx.beginPath(); cCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2); cCtx.fillStyle = p.color; cCtx.fill();
+    });
+    if (active) requestAnimationFrame(animateConfetti);
+  }
+
+  // COUNTDOWN MECHANICAL CLOCK
+  const targetDate = new Date("June 28, 2026 11:30:00").getTime();
+  setInterval(function() {
+    const now = new Date().getTime(); const distance = targetDate - now;
+    if (distance < 0) { document.getElementById("countdown").innerHTML = "<div style='color:var(--gold-primary);font-weight:600;font-size:1.3rem;'>The Blessed Nikkah Ceremony Has Begun! ✨</div>"; return; }
+    const d = Math.floor(distance / (1000 * 60 * 60 * 24)); const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); const s = Math.floor((distance % (1000 * 60)) / 1000);
+    document.getElementById("days").innerText = d < 10 ? "0" + d : d; document.getElementById("hours").innerText = h < 10 ? "0" + h : h; document.getElementById("minutes").innerText = m < 10 ? "0" + m : m; document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+  }, 1000);
+</script>
 </body>
 </html>
